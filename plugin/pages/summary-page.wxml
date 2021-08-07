@@ -1,0 +1,4 @@
+<!--plugin/pages/summary-page.wxml-->
+<text>
+  This is a plugin page!
+</text>

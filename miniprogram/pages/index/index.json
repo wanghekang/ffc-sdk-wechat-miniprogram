@@ -1,5 +1,7 @@
 {
-  "usingComponents": {
-    "hello-list": "plugin://hello-plugin/hello-component"
-  }
+	"enablePullDownRefresh": true,
+	"navigationStyle": "custom",
+	"usingComponents": {
+		"navigation": "/components/navigation/navigation"
+	}
 }

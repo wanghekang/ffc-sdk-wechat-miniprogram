@@ -3,7 +3,7 @@
     "hello-component": "components/hello-component"
   },
   "pages": {
-    "hello-page": "pages/hello-page"
+    "summary-page": "pages/summary-page"
   },
   "main": "index.js"
 }
