@@ -1,16 +1,14 @@
 // plugin/pages/summary-page.js
 Page({
-  data: {},
+  data: {
+    items: []
+  },
+  storageKey: 'ffc-sdk-wechat-miniprogram',
   onLoad() {
-    wx.setStorage({
-      key: "key",
-      data: "value"
-    });
-    var value = wx.getStorageSync('key')
-    console.log(value);
-    const res = wx.getStorageInfoSync()
-    console.log(res.keys)
-    console.log(res.currentSize)
-    console.log(res.limitSize)
+    let featureFlagsStr = wx.getStorageSync(this.storageKey);
+    if (featureFlagsStr && featureFlagsStr !== null && featureFlagsStr.length > 0) {
+      let featureFlags = JSON.parse(featureFlagsStr);
+      items = featureFlags;
+    }
   }
 })

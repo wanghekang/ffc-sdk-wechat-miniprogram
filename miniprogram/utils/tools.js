@@ -1,5 +1,6 @@
 const WXAPI = require('apifm-wxapi')
 
+
 // 显示购物车tabBar的Badge
 function showTabBarBadge() {
 	const token = wx.getStorageSync('token')
@@ -57,5 +58,5 @@ function formatNumber(n) {
 module.exports = {
 	showTabBarBadge: showTabBarBadge,
 	isStrInArray: isStrInArray,
-	formatTime: formatTime,
+	formatTime: formatTime
 }

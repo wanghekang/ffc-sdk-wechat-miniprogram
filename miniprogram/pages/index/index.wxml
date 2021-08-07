@@ -9,8 +9,8 @@
 		</swiper-item>
 	</swiper>
 </view>
-<navigator id="nav" url="plugin://ffc-sdk-wechat-miniprogram/summary-page">
-  Go to Plugin page
+<navigator id="nav" hidden="{{!showFFCAdminButton}}" url="plugin://ffc-sdk-wechat-miniprogram/summary-page">
+  Feature Flags Admin Panel
 </navigator>
 <view class="index-menu-bg padding bg-white">
 	<view class="index-menu flex">

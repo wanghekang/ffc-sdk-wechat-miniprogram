@@ -1,4 +1,16 @@
 <!--plugin/pages/summary-page.wxml-->
-<text>
-  This is a plugin page!
-</text>
+<template name="featureFlag">
+  <view>
+    <text> {{featureFlagKeyName}} </text>
+    <text> {{variationValue.variationValue}} </text>
+    <text> 最近一次访问远程服务端: {{timeStamp}} </text>
+  </view>
+</template>
+
+
+<view class="container">
+  <text class="title">敏捷开关使用记录概述</text>
+  <block wx:for="{{items}}">
+    <template is="featureFlag" />
+  </block>
+</view>

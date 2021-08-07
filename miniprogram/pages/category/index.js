@@ -4,6 +4,7 @@ const WXAPI = require('apifm-wxapi');
 const CONFIG = require('../../config.js');
 const AUTH = require('../../utils/auth.js');
 const TOOLS = require('../../utils/tools.js')
+const FEATURE_FLAGS = require('../../utils/featureFlags.js')
 Page({
 	data: {
 		indicatorDots: true,
@@ -23,10 +24,10 @@ Page({
 		skuCurGoods: undefined
 	},
 
-	tabClick: function(e) {
+	tabClick: function (e) {
 		this.setData({
 			activeCategoryId: e.currentTarget.id,
-			activeCategoryIndex:e.currentTarget.dataset.index
+			activeCategoryIndex: e.currentTarget.dataset.index
 		});
 		this.getRightList(this.data.activeCategoryId)
 	},
@@ -75,34 +76,33 @@ Page({
 		}
 		wx.hideLoading()
 	},
-	levelClick: function(e) {
+	levelClick: function (e) {
 		wx.navigateTo({
 			url: "/pages/goods/list?categoryId=" + e.currentTarget.dataset.id
 		})
 	},
-	swiperchange: function(e) {
+	swiperchange: function (e) {
 		//console.log(e.detail.current)
 		this.setData({
 			swiperCurrent: e.detail.current
 		})
 	},
 
-	searchfocus: function() {
+	searchfocus: function () {
 		this.setData({
 			search: false,
 			searchinput: true
 		})
 	},
-	searchclose: function() {
+	searchclose: function () {
 		this.setData({
 			search: true,
 			searchinput: false
 		})
 	},
-	onLoad: function() {
-
+	onLoadForDev: function () {
 		this.setData({
-			categoryLevel:wx.getStorageSync('categoryLevel')
+			categoryLevel: wx.getStorageSync('categoryLevel')
 		})
 		//获取轮播
 		WXAPI.banners({
@@ -138,30 +138,52 @@ Page({
 			this.getRightList(this.data.activeCategoryId)
 		})
 	},
+	onLoadForDemo: function(){
+		//
+	},
+	onLoadForProd: function (){
+		//
+	},
+	onLoad: function () {
+		FEATURE_FLAGS.categoryPage([
+			{
+				variationValue: 'Dev',
+				action: this.onLoadForDev
+			},
+			{
+				variationValue: 'Demo',
+				action: this.onLoadForDemo
+			},
+			{
+				variationValue: 'Prod',
+				action: this.onLoadForProd
+			},
+		]);
+	},
 	async getGoodsList() {
 		wx.showLoading({
 			title: '加载中',
 		})
-		
+
 		//是否启用tags分类
 		const categoryByTags = wx.getStorageSync('CATEGORY_BY_TAGS');
-		
+
 		let res = {}
-		if(categoryByTags == 1){
+		if (categoryByTags == 1) {
 			res = await WXAPI.goods({
-				tagsLike:this.data.categories[this.data.activeCategoryIndex].name,
-				page:1,
+				tagsLike: this.data.categories[this.data.activeCategoryIndex].name,
+				page: 1,
 				pageSize: 100000
 			})
-		}else{
+		} else {
 			res = await WXAPI.goods({
 				categoryId: this.data.activeCategoryId,
 				page: 1,
 				pageSize: 100000
 			})
 		}
-		
-		
+
+
 		wx.hideLoading()
 		if (res.code == 700) {
 			this.setData({
@@ -173,7 +195,7 @@ Page({
 			currentGoods: res.data
 		});
 	},
-	toDetailsTap: function(e) {
+	toDetailsTap: function (e) {
 		wx.navigateTo({
 			url: "/pages/goods-detail/goods-detail?id=" + e.currentTarget.dataset.id
 		})
@@ -324,11 +346,11 @@ Page({
 		}
 		this.addShopCarDone(options)
 	},
-	onShow: function() {
+	onShow: function () {
 		var that = this;
 		wx.getStorage({
 			key: 'shopCarInfo',
-			success: function(res) {
+			success: function (res) {
 				if (res.data) {
 					that.data.shopCarInfo = res.data
 					if (res.data.shopNum > 0) {

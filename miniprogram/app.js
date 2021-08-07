@@ -4,7 +4,6 @@ const AUTH = require('utils/auth')
 const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
 App({
 	onLaunch: function () {
-
 		FFC.init(
 			{
 				"ffUserName": "hu-beau",
@@ -142,6 +141,7 @@ App({
 			}
 		})
 	},
+	
 	fadeInOut: function (that, param, opacity) {
 		const animation = wx.createAnimation({
 			//持续时间800ms
@@ -162,6 +162,7 @@ App({
 		}, 1000)
 	},
 	onShow(e) {
+		
 		this.globalData.launchOption = e
 		// 保存邀请人
 		if (e && e.query && e.query.inviter_id) {

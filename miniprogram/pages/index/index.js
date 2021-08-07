@@ -1,7 +1,6 @@
 const WXAPI = require('apifm-wxapi')
 const CONFIG = require('../../config.js')
 const TOOLS = require('../../utils/tools.js')
-const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
 
 //获取应用实例
 var app = getApp()
@@ -26,7 +25,8 @@ Page({
 		navigation: [],
 		banners: [],
 		disableSearchJump: true,
-		aliveRooms:[]
+		aliveRooms: [],
+		showFFCAdminButton: false
 	},
 	tapNav(e) {
 		const url = e.currentTarget.dataset.url
@@ -34,17 +34,17 @@ Page({
 			url: url
 		})
 	},
-	tabClick: function(e) {
+	tabClick: function (e) {
 		wx.navigateTo({
 			url: '/pages/goods/list?categoryId=' + e.currentTarget.id,
 		})
 	},
-	toDetailsTap: function(e) {
+	toDetailsTap: function (e) {
 		wx.navigateTo({
 			url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id
 		})
 	},
-	tapBanner: function(e) {
+	tapBanner: function (e) {
 		console.log(e)
 		wx.navigateTo({
 			url: e.currentTarget.dataset.url
@@ -55,7 +55,7 @@ Page({
 		// 	})
 		// }
 	},
-	bindTypeTap: function(e) {
+	bindTypeTap: function (e) {
 		this.setData({
 			selectCurrent: e.index
 		})
@@ -68,7 +68,7 @@ Page({
 			})
 		}
 	},
-	onLoad: function(e) {
+	onLoad: function (e) {
 		wx.showShareMenu({
 			withShareTicket: true
 		})
@@ -88,6 +88,7 @@ Page({
 		// that.getCoupons()
 		// that.getNotice()
 		this.wxaMpLiveRooms()
+
 	},
 	async initPage() {
 		wx.showLoading();
@@ -137,10 +138,11 @@ Page({
 		this.getRecommendGoodsList()
 		wx.hideLoading()
 	},
-	onShow: function(e) {
+	onShow: function (e) {
 		app.fadeInOut(this, 'fadeAni', 0);
 		// 获取购物车数据，显示TabBarBadge
 		TOOLS.showTabBarBadge();
+
 	},
 	async categories() {
 		const res = await WXAPI.goodsCategory()
@@ -248,9 +250,9 @@ Page({
 			goods: goods,
 		});
 	},
-	getCoupons: function() {
+	getCoupons: function () {
 		var that = this;
-		WXAPI.coupons().then(function(res) {
+		WXAPI.coupons().then(function (res) {
 			if (res.code == 0) {
 				that.setData({
 					coupons: res.data
@@ -258,17 +260,17 @@ Page({
 			}
 		})
 	},
-	onShareAppMessage: function() {
+	onShareAppMessage: function () {
 		return {
 			title: '"' + wx.getStorageSync('mallName') + '" ' + CONFIG.shareProfile,
 			path: '/pages/index/index?inviter_id=' + wx.getStorageSync('uid')
 		}
 	},
-	getNotice: function() {
+	getNotice: function () {
 		var that = this;
 		WXAPI.noticeList({
 			pageSize: 5
-		}).then(function(res) {
+		}).then(function (res) {
 			if (res.code == 0) {
 				that.setData({
 					noticeList: res.data
@@ -276,13 +278,13 @@ Page({
 			}
 		})
 	},
-	onReachBottom: function() {
+	onReachBottom: function () {
 		this.setData({
 			curPage: this.data.curPage + 1
 		});
 		this.getRecommendGoodsList(true)
 	},
-	onPullDownRefresh: function() {
+	onPullDownRefresh: function () {
 		this.setData({
 			curPage: 1
 		});
@@ -300,7 +302,7 @@ Page({
 			})
 		}
 	},
-	goCoupons: function(e) {
+	goCoupons: function (e) {
 		wx.navigateTo({
 			url: "/pages/coupons/index"
 		})
@@ -330,7 +332,7 @@ Page({
 			url: '/pages/goods/list?name=' + this.data.inputVal,
 		})
 	},
-	onShareAppMessage: function() {
+	onShareAppMessage: function () {
 		return {
 			title: '"' + wx.getStorageSync('mallName') + '" ' + CONFIG.shareProfile,
 			path: '/pages/index/index?inviter_id=' + wx.getStorageSync('uid')
