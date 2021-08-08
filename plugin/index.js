@@ -92,7 +92,7 @@ module.exports = {
     body.environmentSecret = this.secretKey;
     body.featureFlagKeyName = featureFlagKeyName;
 
-    let key = body.featureFlagKeyName + body.ffUserKeyId;
+    let key = body.featureFlagKeyName + '@@' + body.ffUserKeyId;
     let lastFFVariation = this.featureFlags.find(p => p.key == key);
     let nowTimeStamp = Math.round(new Date().getTime() / 1000);
     if (lastFFVariation && lastFFVariation !== null &&
@@ -131,7 +131,7 @@ module.exports = {
     body.environmentSecret = this.secretKey;
     body.featureFlagKeyName = featureFlagKeyName;
 
-    let storageKey = body.featureFlagKeyName + body.ffUserKeyId;
+    let storageKey = body.featureFlagKeyName + '@@' + body.ffUserKeyId;
     let lastFFVariation = this.checkFromStorage(storageKey);
 
     let nowTimeStamp = Math.round(new Date().getTime() / 1000);

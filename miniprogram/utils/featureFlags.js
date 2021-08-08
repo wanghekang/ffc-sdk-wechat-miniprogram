@@ -14,14 +14,34 @@ function categoryPage(actions) {
 						selectedIconPath: "images/nav/home-on.png",
 						text: "分类(Dev)"
 					});
-					let action = actions.find(p=>p.variationValue == 'Green');
+					let action = actions.find(p=>p.variationValue == 'Dev');
 					console.log(action);
 					action.action();
+					break;
+				default:
+					(actions.find(p=>p.variationValue == 'Default')).action();
+					break;
+			}
+		});
+}
+
+function adminPanel(actions) {
+	FFC.checkVariation(
+		'ffc-multi-variation-ffp-test-data3-1628224107322',
+		e => {
+			switch (e.variationValue) {
+				case 'Green':
+					let action = actions.find(p=>p.variationValue == 'Admin');
+					action.action();
+					break;
+				default:
+					(actions.find(p=>p.variationValue == 'Default')).action();
 					break;
 			}
 		});
 }
 
 module.exports = {
-	categoryPage: categoryPage
+	categoryPage: categoryPage,
+	adminPanel: adminPanel
 }

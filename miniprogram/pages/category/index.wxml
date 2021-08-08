@@ -1,9 +1,12 @@
 <navigation id='Navigation' show-search='{{true}}'></navigation>
+
+
 <view class="container">
 	<view class="type-container-boxx">
 		<view class="scroll-view-container">
 			<scroll-view scroll-y="true" scroll-into-view="true" scroll-with-animation="true" class="type-container">
-				<view scroll-y="true" wx:for-items="{{categories}}" wx:key="id" class="type-box" bindtap="tabClick" id="{{item.id}}" data-index="{{index}}">
+				<view scroll-y="true" wx:for-items="{{categories}}" wx:key="id" class="type-box" bindtap="tabClick"
+					id="{{item.id}}" data-index="{{index}}">
 					<view class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on' : ''}}">
 						{{item.name}}
 					</view>
@@ -13,10 +16,12 @@
 		<view class="list-container">
 			<view class="type-list">
 				<view class="swiper-container">
-					<swiper class="swiper_box" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
+					<swiper class="swiper_box" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"
+						bindchange="swiperchange">
 						<block wx:for="{{banners}}" wx:key="id">
 							<swiper-item>
-								<image bindtap="toDetailsTap" data-id="{{item.businessId}}" src="{{item.picUrl}}_m" class="slide-image" mode="widthFix" />
+								<image bindtap="toDetailsTap" data-id="{{item.businessId}}" src="{{item.picUrl}}_m" class="slide-image"
+									mode="widthFix" />
 							</swiper-item>
 						</block>
 					</swiper>
@@ -26,9 +31,10 @@
 						</block>
 					</view>
 				</view>
-				<view wx:if="{{categoryLevel == 2}}" wx:for="{{rightList}}" wx:key="id" wx:for-item="parentItem" class="type-menu">
+				<view wx:if="{{categoryLevel == 2}}" wx:for="{{rightList}}" wx:key="id" wx:for-item="parentItem"
+					class="type-menu">
 					<view class="padding-sm text-black text-bold">{{parentItem.parentCateName}}</view>
-					<view class="type-level-box" wx:for="{{parentItem.list}}" wx:key="id" wx:for-item="item" >
+					<view class="type-level-box" wx:for="{{parentItem.list}}" wx:key="id" wx:for-item="item">
 						<view class="type-level-item " bindtap="levelClick" data-id="{{item.id}}">
 							<image class="type-img" src="{{item.icon}}"></image>
 							<text>{{item.name}}</text>
@@ -36,7 +42,8 @@
 					</view>
 				</view>
 				<view wx:if="{{categoryLevel == 1}}" class="goods-list">
-					<navigator hover-class="none" wx:for="{{currentGoods}}" wx:key="id" class="item flex padding-sm solid-bottom" url="/pages/goods-details/index?id={{item.id}}">
+					<navigator hover-class="none" wx:for="{{currentGoods}}" wx:key="id" class="item flex padding-sm solid-bottom"
+						url="/pages/goods-details/index?id={{item.id}}">
 						<view class="image">
 							<image src="{{item.pic}}" mode="aspectFill"></image>
 						</view>
@@ -63,25 +70,27 @@
 	</view>
 </view>
 <view class="top-line"></view>
+
 <view class="bottom-lin"></view>
 <block wx:if="{{skuCurGoods}}">
-  <view class="sku-mask"></view>
-  <view class="sku-container">
-    <image class="close" src="/images/icon/close.svg" bindtap="closeSku"></image>
-    <view class="sku" wx:for="{{skuCurGoods.properties}}" wx:key="id">
-      <view class="t">{{item.name}}</view>
-      <view class="items">
-        <text class="{{small.active? 'active' : ''}}" wx:for="{{item.childsCurGoods}}" wx:for-item="small" wx:key="id" data-pid="{{small.propertyId}}" data-id="{{small.id}}" bindtap="skuSelect">{{small.name}}</text>
-      </view>
-    </view>
-    <view class="num">
-      <view class="t">购买数量</view>
-      <view class="num-box">
-        <text class="a" bindtap="storesJian">-</text>
-        <text class="b">{{skuCurGoods.basicInfo.storesBuy}}</text>
-        <text class="a" bindtap="storesJia">+</text>
-      </view>
-    </view>
-  </view>
-  <view class="sku-btn" bindtap="addCarSku">加入购物车</view>
+	<view class="sku-mask"></view>
+	<view class="sku-container">
+		<image class="close" src="/images/icon/close.svg" bindtap="closeSku"></image>
+		<view class="sku" wx:for="{{skuCurGoods.properties}}" wx:key="id">
+			<view class="t">{{item.name}}</view>
+			<view class="items">
+				<text class="{{small.active? 'active' : ''}}" wx:for="{{item.childsCurGoods}}" wx:for-item="small" wx:key="id"
+					data-pid="{{small.propertyId}}" data-id="{{small.id}}" bindtap="skuSelect">{{small.name}}</text>
+			</view>
+		</view>
+		<view class="num">
+			<view class="t">购买数量</view>
+			<view class="num-box">
+				<text class="a" bindtap="storesJian">-</text>
+				<text class="b">{{skuCurGoods.basicInfo.storesBuy}}</text>
+				<text class="a" bindtap="storesJia">+</text>
+			</view>
+		</view>
+	</view>
+	<view class="sku-btn" bindtap="addCarSku">加入购物车</view>
 </block>

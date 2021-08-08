@@ -21,7 +21,8 @@ Page({
 		searchidden: true,
 		categoryLevel: 2,
 		rightList: {},
-		skuCurGoods: undefined
+		skuCurGoods: undefined,
+		hideFFCAdminPanel: true
 	},
 
 	tabClick: function (e) {
@@ -133,7 +134,8 @@ Page({
 			} //
 			this.setData({
 				categories: categories,
-				activeCategoryId: categories[0].id
+				activeCategoryId: categories[0].id,
+				hideFFCAdminPanel: false
 			});
 			this.getRightList(this.data.activeCategoryId)
 		})
@@ -143,6 +145,9 @@ Page({
 	},
 	onLoadForProd: function (){
 		//
+	},
+	onLoadForDefault: function(){
+		console.log('GOGOGO');
 	},
 	onLoad: function () {
 		FEATURE_FLAGS.categoryPage([
@@ -158,6 +163,10 @@ Page({
 				variationValue: 'Prod',
 				action: this.onLoadForProd
 			},
+			{
+				variationValue: 'Default',
+				action: this.onLoadForDefault
+			}
 		]);
 	},
 	async getGoodsList() {

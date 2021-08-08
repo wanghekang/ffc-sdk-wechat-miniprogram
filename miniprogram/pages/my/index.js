@@ -3,6 +3,7 @@ const WXAPI = require('apifm-wxapi')
 const CONFIG = require('../../config.js')
 const TOOLS = require('../../utils/tools.js')
 const AUTH = require('../../utils/auth')
+const FEATURE_FLAGS = require('../../utils/featureFlags.js')
 Page({
 	data: {
 		balance: 0,
@@ -16,14 +17,30 @@ Page({
 		noticeList: [],
 		loaded: false,//避免首次打开用户中心重复获取数据,
 		// 判断有没有用户详细资料
-		userInfoStatus: 0 // 0 未读取 1 没有详细信息 2 有详细信息
+		userInfoStatus: 0, // 0 未读取 1 没有详细信息 2 有详细信息
+		showFFCAdminPanel: false
 	},
-	onLoad: function() {
+	onLoad: function () {
 		this.getNoticeList();
+
+		FEATURE_FLAGS.adminPanel([
+			{
+				variationValue: 'Admin',
+				action: () => {
+					this.setData({
+						showFFCAdminPanel: true
+					})
+				}
+			},
+			{
+				variationValue: 'Default',
+				action: () => { }
+			}
+		]);
 	},
 	onShow() {
-		AUTH.checkHasLogined().then( isLogined =>{
-			if(isLogined){
+		AUTH.checkHasLogined().then(isLogined => {
+			if (isLogined) {
 				this.getUserApiInfo()
 				// this.getUserAmount()
 				this.checkScoreSign()
@@ -31,8 +48,8 @@ Page({
 				this.setData({
 					loaded: true
 				})
-			}else{
-				AUTH.authorize().then( res => {
+			} else {
+				AUTH.authorize().then(res => {
 					this.getUserApiInfo()
 					this.checkScoreSign()
 					this.getOrderStatistics()
@@ -55,53 +72,53 @@ Page({
 	// 	})
 	// },
 	updateUserInfo(e) {
-	  wx.getUserProfile({
-	    lang: 'zh_CN',
-	    desc: '用于完善会员资料',
-	    success: res => {
-	      this._updateUserInfo(res.userInfo)
-	    },
-	    fail: err => {
-	      wx.showToast({
-	        title: err.errMsg,
-	        icon: 'none'
-	      })
-	    }
-	  })
+		wx.getUserProfile({
+			lang: 'zh_CN',
+			desc: '用于完善会员资料',
+			success: res => {
+				this._updateUserInfo(res.userInfo)
+			},
+			fail: err => {
+				wx.showToast({
+					title: err.errMsg,
+					icon: 'none'
+				})
+			}
+		})
 	},
 	async _updateUserInfo(userInfo) {
-	  const postData = {
-	    token: wx.getStorageSync('token'),
-	    nick: userInfo.nickName,
-	    avatarUrl: userInfo.avatarUrl,
-	    city: userInfo.city,
-	    province: userInfo.province,
-	    gender: userInfo.gender,
-	  }
-	  const res = await WXAPI.modifyUserInfo(postData)
-	  if (res.code != 0) {
-	    wx.showToast({
-	      title: res.msg,
-	      icon: 'none'
-	    })
-	    return
-	  }
-	  wx.showToast({
-	    title: '登陆成功',
-	  })
-	  this.getUserApiInfo()
+		const postData = {
+			token: wx.getStorageSync('token'),
+			nick: userInfo.nickName,
+			avatarUrl: userInfo.avatarUrl,
+			city: userInfo.city,
+			province: userInfo.province,
+			gender: userInfo.gender,
+		}
+		const res = await WXAPI.modifyUserInfo(postData)
+		if (res.code != 0) {
+			wx.showToast({
+				title: res.msg,
+				icon: 'none'
+			})
+			return
+		}
+		wx.showToast({
+			title: '登陆成功',
+		})
+		this.getUserApiInfo()
 	},
 	async getUserApiInfo() {
 		const res = await WXAPI.userDetail(wx.getStorageSync('token'))
 		let _data = {}
 		if (res.data.base.nick && res.data.base.avatarUrl) {
-		  _data.userInfoStatus = 2
+			_data.userInfoStatus = 2
 		} else {
-		  _data.userInfoStatus = 1
+			_data.userInfoStatus = 1
 		}
 		this.setData(_data)
 	},
-	getUserAmount: function() {
+	getUserAmount: function () {
 		WXAPI.userAmount(wx.getStorageSync('token')).then(res => {
 			if (res.code == 0) {
 				this.setData({
@@ -112,7 +129,7 @@ Page({
 			}
 		})
 	},
-	checkScoreSign: function() {
+	checkScoreSign: function () {
 		WXAPI.scoreTodaySignedInfo(wx.getStorageSync('token')).then(res => {
 			if (res.code == 0) {
 				this.setData({
@@ -154,7 +171,7 @@ Page({
 			}
 		})
 	},
-	score: function() {
+	score: function () {
 		wx.navigateTo({
 			url: "/pages/sign/index"
 		})

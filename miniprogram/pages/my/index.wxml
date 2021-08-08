@@ -8,16 +8,18 @@
 				</view>
 				<view class="login-btn" wx:else bindtap="updateUserInfo">微信一键登录</view>
 				<text wx:if="{{score_sign_continuous == 0}}" class="userinfo-score-day" bindtap="score">今日未签到</text>
-				<text wx:if="{{score_sign_continuous > 0}}" class="userinfo-score-day" bindtap="score">已连续签到{{score_sign_continuous}}天</text>
+				<text wx:if="{{score_sign_continuous > 0}}" class="userinfo-score-day"
+					bindtap="score">已连续签到{{score_sign_continuous}}天</text>
 			</view>
 		</view>
 		<image src="../../images/user-bg.jpg"></image>
 	</view>
 	<view class="userinfo-notice" wx:if="{{noticeList.length}}">
 		<image src="../../images/gonggao.png" />
-		<swiper wx:if="{{noticeList}}" class="notice_swiper" vertical="true" autoplay="true" circular="true" interval="6000">
-			<navigator wx:for-items="{{noticeList.dataList}}" wx:key="id" url="/pages/notice/notice?id={{item.id}}" hover-class="none"
-			 open-type="navigate">
+		<swiper wx:if="{{noticeList}}" class="notice_swiper" vertical="true" autoplay="true" circular="true"
+			interval="6000">
+			<navigator wx:for-items="{{noticeList.dataList}}" wx:key="id" url="/pages/notice/notice?id={{item.id}}"
+				hover-class="none" open-type="navigate">
 				<swiper-item>
 					<view class="notice_itemr">{{item.title}}</view>
 				</swiper-item>
@@ -69,6 +71,13 @@
 				</view> -->
 			</view>
 			<text>售后</text>
+		</view>
+	</view>
+	<view class="cu-bar" hidden="{{!showFFCAdminPanel}}">
+		<view class="action">
+			<navigator url="plugin://ffc-sdk-wechat-miniprogram/summary-page">
+				<button>查看敏捷开关使用概述</button>
+			</navigator>
 		</view>
 	</view>
 	<view class="cu-bar" style="width: 100%;">
