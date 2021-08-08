@@ -1,6 +1,7 @@
 const WXAPI = require('apifm-wxapi')
 const CONFIG = require('../../config.js')
 const TOOLS = require('../../utils/tools.js')
+const FEATURE_FLAGS = require('../../utils/featureFlags.js')
 
 //获取应用实例
 var app = getApp()
@@ -137,11 +138,23 @@ Page({
 		this.pingtuanGoods()
 		this.getRecommendGoodsList()
 		wx.hideLoading()
+
+		if((await FEATURE_FLAGS.testAsync()).variationValue == 'Green'){
+			wx.showToast({
+				title: 'Green',
+			})
+		}
+		// FEATURE_FLAGS.test((e) => {
+		// 	wx.showToast({
+		// 		title: e.variationValue,
+		// 	})
+		// });
 	},
 	onShow: function (e) {
 		app.fadeInOut(this, 'fadeAni', 0);
 		// 获取购物车数据，显示TabBarBadge
 		TOOLS.showTabBarBadge();
+
 
 	},
 	async categories() {

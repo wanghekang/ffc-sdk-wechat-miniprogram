@@ -58,7 +58,7 @@ module.exports = {
       action(returnValueWhenUnhandledException);
     }
     else {
-      action(lastFFVariation.variationValue);
+      action(lastFFVariation.data.variationValue);
     }
   },
   getStorage() {
@@ -108,8 +108,9 @@ module.exports = {
     let lastFFVariation = this.featureFlags.find(p => p.key == key);
     let nowTimeStamp = Math.round(new Date().getTime() / 1000);
     if (lastFFVariation && lastFFVariation !== null &&
-      ((lastFFVariation.timeStamp + this.sameFlagCallMinimumInterval) >= nowTimeStamp)) {
-      action(lastFFVariation.variationValue);
+        (this.sameFlagCallMinimumInterval >= (nowTimeStamp - lastFFVariation.data.timeStamp) && 
+         lastFFVariation.data.timeStamp < nowTimeStamp)) {
+      action(lastFFVariation.data.variationValue);
     }
     else {
       let actionWhenError = this.actionWhenError;
@@ -139,41 +140,53 @@ module.exports = {
   checkVariationAsync(
     featureFlagKeyName,
     returnValueWhenUnhandledException = { localId: -1, variationValue: 'error' }) {
-    let body = this.userInfo;
-    body.environmentSecret = this.secretKey;
-    body.featureFlagKeyName = featureFlagKeyName;
+    let body = {
+      ffUserName: this.userInfo.ffUserName,
+      ffUserEmail: this.userInfo.ffUserEmail,
+      ffUserKeyId: this.userInfo.ffUserKeyId,
+      ffUserCustomizedProperties: this.userInfo.ffUserCustomizedProperties,
+      environmentSecret: this.secretKey,
+      featureFlagKeyName: featureFlagKeyName
+    };
 
-    let storageKey = body.featureFlagKeyName + '@@' + body.ffUserKeyId;
-    let lastFFVariation = this.checkFromStorage(storageKey);
-
+    let key = body.featureFlagKeyName + '@@' + body.ffUserKeyId;
+    let lastFFVariation = this.featureFlags.find(p => p.key == key);
     let nowTimeStamp = Math.round(new Date().getTime() / 1000);
-    if (lastFFVariation !== null &&
-      ((lastFFVariation.timeStamp + this.sameFlagCallMinimumInterval) >= nowTimeStamp))
-      return lastFFVariation.variationValue;
+
+    if (lastFFVariation && lastFFVariation !== null &&
+      (this.sameFlagCallMinimumInterval >= (nowTimeStamp - lastFFVariation.data.timeStamp) && 
+       lastFFVariation.data.timeStamp < nowTimeStamp)) {
+      return lastFFVariation.data.variationValue;
+    }
 
     return new Promise((resolve, reject) => {
+      let updateFeatureFlags = this.updateFeatureFlags;
+      let featureFlags = this.featureFlags;
+      let storageKey = this.storageKey;
       wx.request({
         url: this.defaultRootUri + '/Variation/GetMultiOptionVariation',
         data: body,
         header: { 'Content-Type': 'application/json' },
         method: 'POST',
         fail: function (res) {
-          if (lastFFVariation == null) {
-            resolve(returnValueWhenUnhandledException);
-          }
-          else {
-            resolve(lastFFVariation.variationValue);
-          }
+          resolve(
+            (!lastFFVariation || lastFFVariation === null) ?
+              returnValueWhenUnhandledException
+              :
+              lastFFVariation.data.variationValue);
         },
         success: function (res) {
-          wx.setStorage({
-            key: storageKey,
-            data: JSON.stringify({
-              variationValue: res.data,
-              timeStamp: nowTimeStamp
-            })
-          });
-          resolve(res.data);
+          if (res.statusCode === 200) {
+            updateFeatureFlags(key, res.data, featureFlags, storageKey);
+            resolve(res.data);
+          }
+          else {
+            resolve(
+              (!lastFFVariation || lastFFVariation === null) ?
+                returnValueWhenUnhandledException
+                :
+                lastFFVariation.data.variationValue);
+          }
         }
       });
     });

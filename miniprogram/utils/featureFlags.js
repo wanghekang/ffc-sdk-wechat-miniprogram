@@ -59,8 +59,23 @@ function adminPanel(actions) {
 		});
 }
 
+async function testAsync() {
+	let result = await FFC.checkVariationAsync('ffc-multi-variation-ffp-test-data3-1628224107322');
+	return result;
+}
+
+async function test(action) {
+	FFC.checkVariation(
+		'ffc-multi-variation-ffp-test-data3-1628224107322',
+		e => {
+			action(e);
+		});
+}
+
 module.exports = {
 	categoryPage: categoryPage,
 	adminPanel: adminPanel,
-	setUserInfo: setUserInfo
+	setUserInfo: setUserInfo,
+	testAsync: testAsync,
+	test: test
 }
