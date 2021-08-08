@@ -111,6 +111,8 @@ Page({
 	async getUserApiInfo() {
 		const res = await WXAPI.userDetail(wx.getStorageSync('token'))
 		let _data = {}
+		console.log(res.data);
+		FEATURE_FLAGS.setUserInfo(res.data);
 		if (res.data.base.nick && res.data.base.avatarUrl) {
 			_data.userInfoStatus = 2
 		} else {

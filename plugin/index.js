@@ -15,16 +15,23 @@ module.exports = {
   featureFlags: [],
   storageKey: 'ffc-sdk-wechat-miniprogram',
   init(
-    userInfo = {},
+    userInfo = null,
     secretKey = '',
     defaultRootUri = 'https://ffc-api-ce2-dev.chinacloudsites.cn',
     sameFlagCallMinimumInterval = 15) {
     console.log(secretKey);
     this.secretKey = secretKey;
-    this.userInfo = userInfo;
+    if (userInfo && userInfo !== null)
+      this.userInfo = userInfo;
     this.defaultRootUri = defaultRootUri;
     this.sameFlagCallMinimumInterval = sameFlagCallMinimumInterval;
     this.featureFlags = this.getStorage();
+  },
+  initFFUserInfo(userInfo) {
+    this.userInfo = userInfo;
+  },
+  updateFFUserKeyId(ffUserKeyId) {
+    this.userInfo.ffUserKeyId = ffUserKeyId;
   },
   updateFFUserName(ffUserName) {
     this.userInfo.ffUserName = ffUserName;
@@ -88,9 +95,14 @@ module.exports = {
     featureFlagKeyName,
     action,
     returnValueWhenUnhandledException = { localId: -1, variationValue: 'error' }) {
-    let body = this.userInfo;
-    body.environmentSecret = this.secretKey;
-    body.featureFlagKeyName = featureFlagKeyName;
+    let body = {
+      ffUserName: this.userInfo.ffUserName,
+      ffUserEmail: this.userInfo.ffUserEmail,
+      ffUserKeyId: this.userInfo.ffUserKeyId,
+      ffUserCustomizedProperties: this.userInfo.ffUserCustomizedProperties,
+      environmentSecret: this.secretKey,
+      featureFlagKeyName: featureFlagKeyName
+    };
 
     let key = body.featureFlagKeyName + '@@' + body.ffUserKeyId;
     let lastFFVariation = this.featureFlags.find(p => p.key == key);
