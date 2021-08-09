@@ -5,22 +5,10 @@ const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
 App({
 	onLaunch: function () {
 		FFC.init(
-			{
-				"ffUserName": "hu-beau",
-				"ffUserEmail": "hu-beau@outlook.com",
-				"ffUserKeyId": "hu-beau@outlook.com",
-				"ffUserCustomizedProperties": [
-					{
-						"name": "groups",
-						"value": "1"
-					},
-					{
-						"name": "version",
-						"value": "1.0.x"
-					}
-				]
-			},
-			"MzkwLWZlYjctNCUyMDIxMDczMTExNDkwNV9fNF9fMl9fNF9fZGVmYXVsdF9hNGIyYQ=="
+			null,
+			"MzkwLWZlYjctNCUyMDIxMDczMTExNDkwNV9fNF9fMl9fNF9fZGVmYXVsdF9hNGIyYQ==",
+			20,
+			"Development"
 		);
 
 		const subDomain = wx.getExtConfigSync().subDomain

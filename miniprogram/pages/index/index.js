@@ -139,11 +139,11 @@ Page({
 		this.getRecommendGoodsList()
 		wx.hideLoading()
 
-		if((await FEATURE_FLAGS.testAsync()).variationValue == 'Green'){
-			wx.showToast({
-				title: 'Green',
-			})
-		}
+		// if((await FEATURE_FLAGS.testAsync()).variationValue == 'Green'){
+		// 	wx.showToast({
+		// 		title: 'Green',
+		// 	})
+		// }
 		// FEATURE_FLAGS.test((e) => {
 		// 	wx.showToast({
 		// 		title: e.variationValue,

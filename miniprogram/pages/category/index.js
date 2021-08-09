@@ -150,24 +150,24 @@ Page({
 		console.log('GOGOGO');
 	},
 	onLoad: function () {
-		FEATURE_FLAGS.categoryPage([
-			{
-				variationValue: 'Dev',
-				action: this.onLoadForDev
-			},
-			{
-				variationValue: 'Demo',
-				action: this.onLoadForDemo
-			},
-			{
-				variationValue: 'Prod',
-				action: this.onLoadForProd
-			},
-			{
-				variationValue: 'Default',
-				action: this.onLoadForDefault
-			}
-		]);
+		// FEATURE_FLAGS.categoryPage([
+		// 	{
+		// 		variationValue: 'Dev',
+		// 		action: this.onLoadForDev
+		// 	},
+		// 	{
+		// 		variationValue: 'Demo',
+		// 		action: this.onLoadForDemo
+		// 	},
+		// 	{
+		// 		variationValue: 'Prod',
+		// 		action: this.onLoadForProd
+		// 	},
+		// 	{
+		// 		variationValue: 'Default',
+		// 		action: this.onLoadForDefault
+		// 	}
+		// ]);
 	},
 	async getGoodsList() {
 		wx.showLoading({

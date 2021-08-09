@@ -5,7 +5,7 @@ function setUserInfo(wechatUserInfo) {
 	FFC.initFFUserInfo({
 		ffUserName: wechatUserInfo.base.nick,
 		ffUserEmail: "",
-		ffUserKeyId: wechatUserInfo.base.id,
+		ffUserKeyId: `${wechatUserInfo.base.id}`,
 		ffUserCustomizedProperties: [
 			{
 				name: "gender",
@@ -48,8 +48,8 @@ function adminPanel(actions) {
 		'ffc-multi-variation-ffp-test-data3-1628224107322',
 		e => {
 			switch (e.variationValue) {
-				case 'Green':
-					let action = actions.find(p => p.variationValue == 'Admin');
+				case 'Blue':
+					let action = actions.find(p => p.variationValue == 'Blue');
 					action.action();
 					break;
 				default:

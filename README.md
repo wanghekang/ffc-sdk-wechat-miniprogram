@@ -1,6 +1,6 @@
 # ffc-sdk-wechat-miniprogram
 
-敏捷开关(feature-flags.co) 为小程序开发者方便实用feature flags服务提供的SDK
+敏捷开关(https://github.com/feature-flags-co/feature-flags-co) 为小程序开发者方便实用feature flags服务提供的SDK
 
 主要功能包括：
 

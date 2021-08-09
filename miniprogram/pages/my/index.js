@@ -23,20 +23,7 @@ Page({
 	onLoad: function () {
 		this.getNoticeList();
 
-		FEATURE_FLAGS.adminPanel([
-			{
-				variationValue: 'Admin',
-				action: () => {
-					this.setData({
-						showFFCAdminPanel: true
-					})
-				}
-			},
-			{
-				variationValue: 'Default',
-				action: () => { }
-			}
-		]);
+		
 	},
 	onShow() {
 		AUTH.checkHasLogined().then(isLogined => {
@@ -111,8 +98,22 @@ Page({
 	async getUserApiInfo() {
 		const res = await WXAPI.userDetail(wx.getStorageSync('token'))
 		let _data = {}
-		console.log(res.data);
 		FEATURE_FLAGS.setUserInfo(res.data);
+		FEATURE_FLAGS.adminPanel([
+			{
+				variationValue: 'Blue',
+				action: () => {
+					this.setData({
+						showFFCAdminPanel: true
+					})
+				}
+			},
+			{
+				variationValue: 'Default',
+				action: () => { }
+			}
+		]);
+
 		if (res.data.base.nick && res.data.base.avatarUrl) {
 			_data.userInfoStatus = 2
 		} else {
