@@ -17,13 +17,16 @@ module.exports = {
   init(
     userInfo = null,
     secretKey = '',
-    defaultRootUri = 'https://ffc-api-ce2-dev.chinacloudsites.cn',
-    sameFlagCallMinimumInterval = 15) {
+    sameFlagCallMinimumInterval = 15,
+    env = 'Production') {
     console.log(secretKey);
     this.secretKey = secretKey;
     if (userInfo && userInfo !== null)
       this.userInfo = userInfo;
-    this.defaultRootUri = defaultRootUri;
+    if (env === 'Production')
+      this.defaultRootUri = 'https://api.feature-flags.co';
+    else
+      this.defaultRootUri = 'https://ffc-api-ce2-dev.chinacloudsites.cn';
     this.sameFlagCallMinimumInterval = sameFlagCallMinimumInterval;
     this.featureFlags = this.getStorage();
   },
@@ -108,8 +111,8 @@ module.exports = {
     let lastFFVariation = this.featureFlags.find(p => p.key == key);
     let nowTimeStamp = Math.round(new Date().getTime() / 1000);
     if (lastFFVariation && lastFFVariation !== null &&
-        (this.sameFlagCallMinimumInterval >= (nowTimeStamp - lastFFVariation.data.timeStamp) && 
-         lastFFVariation.data.timeStamp < nowTimeStamp)) {
+      (this.sameFlagCallMinimumInterval >= (nowTimeStamp - lastFFVariation.data.timeStamp) &&
+        lastFFVariation.data.timeStamp < nowTimeStamp)) {
       action(lastFFVariation.data.variationValue);
     }
     else {
@@ -154,8 +157,8 @@ module.exports = {
     let nowTimeStamp = Math.round(new Date().getTime() / 1000);
 
     if (lastFFVariation && lastFFVariation !== null &&
-      (this.sameFlagCallMinimumInterval >= (nowTimeStamp - lastFFVariation.data.timeStamp) && 
-       lastFFVariation.data.timeStamp < nowTimeStamp)) {
+      (this.sameFlagCallMinimumInterval >= (nowTimeStamp - lastFFVariation.data.timeStamp) &&
+        lastFFVariation.data.timeStamp < nowTimeStamp)) {
       return lastFFVariation.data.variationValue;
     }
 
