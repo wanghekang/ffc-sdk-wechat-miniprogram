@@ -1,0 +1,154 @@
+page {
+	background: #f2f2f2;
+}
+
+.swiper-container {
+	height: 750rpx;
+}
+
+.swiper-container .screen-swiper {
+	height: 750rpx;
+}
+
+.index-menu-bg {
+	/* position: relative;
+	width: 710rpx;
+	left: 20rpx;
+	margin-top: -50rpx;
+	background: linear-gradient(#fff,#f2f2f2);
+	border-top-left-radius: 15rpx;
+	border-top-right-radius: 15rpx; */
+}
+
+.index-menu .menu-list {
+	width: 172.5rpx;
+	text-align: center;
+	padding: 20rpx 0;
+}
+
+.index-menu .menu-list image {
+	height: 80rpx;
+	width: 80rpx;
+	display: inline-block;
+}
+
+.index-menu-bg .index-adv image {
+	width: 100%;
+	height: 172.5rpx;
+}
+
+.index-menu .menu-list .text {
+	font-size: 28rpx;
+	color: #333333;
+}
+
+.index-hot {
+	margin-top: 10rpx;
+}
+
+.index-hot .hot-item {
+	width: 340rpx;
+	height: 260rpx;
+	margin-bottom: 10rpx;
+}
+
+.index-hot .hot-item image {
+	width: 100%;
+	height: 100%;
+}
+
+.goods-container {
+	width: 100%;
+	background: #fff;
+}
+
+.goods-title {
+	text-align: center;
+	height: 90rpx;
+	line-height: 90rpx;
+	color: #333;
+	font-size: 32rpx;
+	display: flex;
+	justify-content: center;
+}
+
+.goods-title .text {
+	display: inline-block;
+	margin-left: 10rpx;
+	margin-right: 10rpx;
+}
+
+.goods-title .line {
+	width: 20rpx;
+	border-top: 1rpx solid #b4282d;
+	margin-top: 45rpx;
+	height: 1rpx;
+}
+
+.goods-title image {
+	width: 36rpx;
+	height: 36rpx;
+	margin-bottom: -6rpx;
+	margin-left: 10rpx;
+
+}
+
+.list-item {
+	width: 330rpx;
+	height: 480rpx;
+	overflow: hidden;
+	margin-bottom: 20rpx;
+}
+
+.list-item image {
+	width: 100%;
+	height: 330rpx;
+	border-radius: 6rpx;
+}
+
+.goods-list-title {
+	font-size: 30rpx;
+	color: #333;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.goods-list-text {
+	font-size: 24rpx;
+	color: #999;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.goods-list-money {
+	font-size: 30rpx;
+	color: #ab2b2b;
+}
+
+.pingtuan .scroll {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	height: 530rpx;
+	background: #fff;
+	width: 100%;
+}
+
+.pingtuan .scroll .scroll-item {
+	width: 400rpx;
+	height: 470rpx;
+}
+
+.pingtuan .scroll .scroll-item .thumb {
+	height: 280rpx;
+	width: 400rpx;
+}
+.pingtuan .scroll .scroll-item .text view{
+	line-height: 50rpx;
+}
+.live-ad image{
+	height: 120rpx;
+	width: 690rpx;
+}
