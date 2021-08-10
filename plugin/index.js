@@ -42,9 +42,6 @@ module.exports = {
   updateFFUserEmail(ffUserEmail) {
     this.userInfo.ffUserEmail = ffUserEmail;
   },
-  updateFFUserKeyId(ffUserKeyId) {
-    this.userInfo.ffUserKeyId = ffUserKeyId;
-  },
   updateFFCustomizedProperties(customizedProperties) {
     this.userInfo.customizedProperties = customizedProperties;
   },

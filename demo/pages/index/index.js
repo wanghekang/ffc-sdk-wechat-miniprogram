@@ -8,11 +8,7 @@ Page({
     pluginAllowed: false,
     showFFCAdminPanel: false
   },
-  gongNengMoKuai1(){
-
-  },
   onLoad() {
-   
     FEATURE_FLAGS.setUserInfo({
       "ffUserName": "hu-beau@outlook.com",
       "ffUserEmail": "hu-beau@outlook.com",
@@ -30,12 +26,11 @@ Page({
     });
     FEATURE_FLAGS.demoFlag([
       {
-        variationValue: '市场部门',
+        variationValue: 'true',
         action: () => {
           this.setData({
             showFFCAdminPanel: true
           })
-          this.gongNengMoKuai1();
         }
       },
       {

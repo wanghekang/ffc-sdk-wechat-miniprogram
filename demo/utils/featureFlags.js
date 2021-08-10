@@ -9,8 +9,8 @@ function demoFlag(actions) {
 		'basic-simple-flag',
 		e => {
 			switch (e.variationValue) {
-				case '开发者':
-					let action = actions.find(p => p.variationValue == '开发者');
+				case 'true':
+					let action = actions.find(p => p.variationValue == 'true');
 					action.action();
 					break;
 				case '市场部门':
