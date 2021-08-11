@@ -10,3 +10,7 @@
 #add {
   margin: 1em;
 }
+
+.cu-bar {
+  margin: 10px;
+}

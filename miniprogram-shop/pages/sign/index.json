@@ -1,7 +1,0 @@
-{
-	"navigationBarTitleText": "签到",
-	"usingComponents": {
-		"navigation": "/components/navigation/navigation",
-		"calendar": "/components/calendar/index"
-	}
-}

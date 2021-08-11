@@ -4,8 +4,8 @@ App({
   onLaunch() {
     FFC.init(
       null,
-      "YWM5LTJlZDUtNCUyMDIxMDgxMDEyNTEwOV9fMl9fMjJfXzY0X19kZWZhdWx0Xzg4NTdj",
-      20,
+      "ZGMxLTQ2NWUtNCUyMDIxMDgxMTE1NDAzNF9fMl9fMl9fNF9fZGVmYXVsdF85YWZlYQ==",
+      5,
       "Production"
     );
   }

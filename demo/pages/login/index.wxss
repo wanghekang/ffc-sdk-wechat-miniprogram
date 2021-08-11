@@ -1,0 +1,10 @@
+/* pages/login/index.wxss */
+
+.page-body{
+  margin:15px;
+}
+
+.page-section{
+  margin-top:10px;
+  margin-bottom: 18px;
+}

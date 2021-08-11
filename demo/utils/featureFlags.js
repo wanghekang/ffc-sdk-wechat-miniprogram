@@ -4,43 +4,27 @@ function setUserInfo(wechatUserInfo) {
 	FFC.initFFUserInfo(wechatUserInfo);
 }
 
-function demoFlag(actions) {
+function showNewFunction(actions) {
 	FFC.checkVariation(
-		'basic-simple-flag',
+		'新功能的开关',
 		e => {
+			console.log(e);
 			switch (e.variationValue) {
-				case 'true':
-					let action = actions.find(p => p.variationValue == 'true');
+				case 'true - real data':
+					let action = actions.find(p => p.variationValue == 'true - real data');
 					action.action();
 					break;
-				case '市场部门':
-					action = actions.find(p => p.variationValue == '市场部门');
+				case 'true - demo data':
+					action = actions.find(p => p.variationValue == 'true - demo data');
 					action.action();
 					break;
 				default:
-					console.log('default');
-					(actions.find(p => p.variationValue == 'Default')).action();
 					break;
 			}
 		});
 }
 
-async function testAsync() {
-	let result = await FFC.checkVariationAsync('ffc-multi-variation-ffp-test-data3-1628224107322');
-	return result;
-}
-
-async function test(action) {
-	FFC.checkVariation(
-		'ffc-multi-variation-ffp-test-data3-1628224107322',
-		e => {
-			action(e);
-		});
-}
-
 module.exports = {
-	demoFlag: demoFlag,
+	showNewFunction: showNewFunction,
 	setUserInfo: setUserInfo,
-	testAsync: testAsync,
-	test: test
 }
