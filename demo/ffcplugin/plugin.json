@@ -1,0 +1,9 @@
+{
+  "publicComponents": {
+    
+  },
+  "pages": {
+    "summary-page": "pages/summary-page"
+  },
+  "main": "index.js"
+}

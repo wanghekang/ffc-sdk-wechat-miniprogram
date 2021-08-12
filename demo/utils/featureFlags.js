@@ -1,4 +1,14 @@
 const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
+// const FFC = require('../ffcplugin/index')
+
+function init() {
+	FFC.init(
+		null,
+		"ZGMxLTQ2NWUtNCUyMDIxMDgxMTE1NDAzNF9fMl9fMl9fNF9fZGVmYXVsdF85YWZlYQ==",
+		1,
+		"Production"
+	);
+}
 
 function setUserInfo(wechatUserInfo) {
 	FFC.initFFUserInfo(wechatUserInfo);
@@ -25,6 +35,7 @@ function showNewFunction(actions) {
 }
 
 module.exports = {
+	init: init,
 	showNewFunction: showNewFunction,
 	setUserInfo: setUserInfo,
 }

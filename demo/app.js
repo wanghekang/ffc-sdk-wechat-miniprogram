@@ -1,12 +1,8 @@
 // app.js
-const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
+const FEATURE_FLAGS = require('/utils/featureFlags.js')
+
 App({
   onLaunch() {
-    FFC.init(
-      null,
-      "ZGMxLTQ2NWUtNCUyMDIxMDgxMTE1NDAzNF9fMl9fMl9fNF9fZGVmYXVsdF85YWZlYQ==",
-      5,
-      "Production"
-    );
+    FEATURE_FLAGS.init();
   }
 })

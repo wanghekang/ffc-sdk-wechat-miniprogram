@@ -1,0 +1,17 @@
+<!--plugin/pages/summary-page.wxml-->
+<template name="featureFlag">
+  <view class="item-container">
+    <text class="item"> Flag: {{item.featureFlagName}} </text>
+    <text class="item"> UserKeyId: {{item.userKeyId}} </text>
+    <text class="item"> 返回值: {{item.data.variationValue.variationValue}} </text>
+    <text class="item"> 最近访问: {{item.data.timeStamp}} </text>
+  </view>
+</template>
+
+
+<view class="container">
+  <text class="title">敏捷开关使用记录概述</text>
+  <block >
+    <template wx:for="{{items}}" data="{{item}}" is="featureFlag" />
+  </block>
+</view>

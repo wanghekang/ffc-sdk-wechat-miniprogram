@@ -23,6 +23,10 @@ Page({
         {
           name: "group",
           value: `${e.detail.value.group}`
+        },
+        {
+          name: "sexe",
+          value: `男`
         }
       ]
     });
