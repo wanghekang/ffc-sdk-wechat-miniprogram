@@ -1,6 +1,6 @@
 <view class="cu-bar" >
 	<view class="action">
-		<navigator >
+		<navigator url="../func2/index">
 			<button>功能1</button>
 		</navigator>
 	</view>
@@ -8,9 +8,7 @@
 
 <view class="cu-bar" >
 	<view class="action">
-		<navigator >
-			<button>功能2</button>
-		</navigator>
+		<button bindtap="func2">功能2</button>
 	</view>
 </view>
 

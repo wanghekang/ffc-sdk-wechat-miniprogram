@@ -24,11 +24,16 @@ module.exports = {
     if (userInfo && userInfo !== null)
       this.userInfo = userInfo;
     if (env === 'Production')
-      this.defaultRootUri = 'https://api.feature-flags.co';
-    else
+      // this.defaultRootUri = 'https://api.feature-flags.co';
       this.defaultRootUri = 'https://ffc-api-ce2-dev.chinacloudsites.cn';
+    else
+      // this.defaultRootUri = 'https://ffc-api-ce2-dev.chinacloudsites.cn';
+      this.defaultRootUri = 'http://localhost:5001';
     this.sameFlagCallMinimumInterval = sameFlagCallMinimumInterval;
     this.featureFlags = this.getStorage();
+
+
+    this.experimentsPage();
   },
   initFFUserInfo(userInfo) {
     this.userInfo = userInfo;
@@ -190,5 +195,53 @@ module.exports = {
         }
       });
     });
+  },
+
+
+  experimentsPage() {
+    // 重写page函数，增加阿里云监控和日志记录
+    wx.setStorage({
+      key: "ffc-sdk-wechat-miniprogram-pageview",
+      data: JSON.stringify([])
+    });
+    let oldPage = Page
+    Page = function (obj) {
+      // 重写onShow方法，用一个变量保存旧的onShow函数
+      let oldOnShow = obj.onShow
+      obj.onShow = function () {
+        console.log(this)
+        let route = this.route;
+        wx.nextTick(() => {
+          console.log("nextTick");
+          let storageKey = "ffc-sdk-wechat-miniprogram-pageview";
+          let pageViewsStr = wx.getStorageSync(storageKey);
+          let pageViews = JSON.parse(pageViewsStr);
+          pageViews.push({
+            route: route,
+            timeStamp: Math.round(new Date().getTime() / 1000),
+            type: 'pageview'
+          })
+          wx.setStorage({
+            key: storageKey,
+            data: JSON.stringify(pageViews)
+          });
+        })
+        console.log(obj)
+
+        // 此处不能写成oldOnShow()，否则没有this，this.setData等方法为undefined。这里的this在Page构造函数实例化的时候才会指定
+        // 在Page构造函数实例化的时候，小程序会将当前的Page对象的原型链（__proto__）增加很多方法，例如setData。当前的obj没有setData
+        // 上面一段是我猜的
+        // oldOnShow.call(this)
+      }
+      // 重写onHide方法，用一个变量保存旧的onHide函数
+      let oldOnHide = obj.onHide
+      obj.onHide = function () {
+        console.log("leavePageLog")
+
+        // 此处不能写成oldOnHide()，否则没有this，this.setData等方法为undefined。这里的this在Page对象实例化的时候才会指定
+        // oldOnHide.call(this)
+      }
+      return oldPage(obj)
+    }
   }
 }

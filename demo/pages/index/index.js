@@ -26,5 +26,10 @@ Page({
   },
   mockNewFunction(){
     this.setData({ showMockNewFunction: true })
+  },
+  func2(){
+    wx.navigateTo({
+      url: '../func3/index',
+    })
   }
 })

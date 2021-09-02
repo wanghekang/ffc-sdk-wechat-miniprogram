@@ -1,10 +1,11 @@
-const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
-// const FFC = require('../ffcplugin/index')
+//const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
+const FFC = require('../ffcplugin/index')
 
 function init() {
 	FFC.init(
 		null,
-		"ZGMxLTQ2NWUtNCUyMDIxMDgxMTE1NDAzNF9fMl9fMl9fNF9fZGVmYXVsdF85YWZlYQ==",
+		// "ZGMxLTQ2NWUtNCUyMDIxMDgxMTE1NDAzNF9fMl9fMl9fNF9fZGVmYXVsdF85YWZlYQ==",
+		"MWEwLWIwODEtNCUyMDIxMDkwMTEzMDEzNl9fMl9fMjJfXzQ0X19kZWZhdWx0XzQ4ZTRh",
 		1,
 		"Production"
 	);
@@ -16,7 +17,7 @@ function setUserInfo(wechatUserInfo) {
 
 function showNewFunction(actions) {
 	FFC.checkVariation(
-		'新功能的开关',
+		'测试',
 		e => {
 			console.log(e);
 			switch (e.variationValue) {

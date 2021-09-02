@@ -1,0 +1,7 @@
+<view class="cu-bar" >
+	<view class="action">
+		<navigator >
+			<button>Func2</button>
+		</navigator>
+	</view>
+</view>
