@@ -14,9 +14,7 @@
 
 <view class="cu-bar" >
 	<view class="action">
-		<navigator >
-			<button>功能3</button>
-		</navigator>
+		<button bindtap="func3">功能3</button>
 	</view>
 </view>
 

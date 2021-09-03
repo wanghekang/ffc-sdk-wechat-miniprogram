@@ -31,5 +31,11 @@ Page({
     wx.navigateTo({
       url: '../func3/index',
     })
+  },
+  func3(e){
+    this.func3Action('aa','bbb')
+  },
+  func3Action(a,b){
+    console.log(a + '  ' + b)
   }
 })

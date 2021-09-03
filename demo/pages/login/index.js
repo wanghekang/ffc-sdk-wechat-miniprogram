@@ -9,6 +9,9 @@ Page({
     username: '',
     group: 'RD'
   },
+  onShow(){
+    console.log('onShow')
+  },
 
   onLoad: function (options) {
     this.setData(MOCK_USER_DATA.generateUserData('RD'))

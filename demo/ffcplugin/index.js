@@ -1,7 +1,5 @@
 module.exports = {
-  sayHello() {
-    console.log('Hello plugin!')
-  },
+
   defaultRootUri: '',
   secretKey: '',
   sameFlagCallMinimumInterval: 15,
@@ -19,7 +17,7 @@ module.exports = {
     secretKey = '',
     sameFlagCallMinimumInterval = 15,
     env = 'Production') {
-    console.log(secretKey);
+    // console.log(secretKey);
     this.secretKey = secretKey;
     if (userInfo && userInfo !== null)
       this.userInfo = userInfo;
@@ -31,24 +29,48 @@ module.exports = {
       this.defaultRootUri = 'http://localhost:5001';
     this.sameFlagCallMinimumInterval = sameFlagCallMinimumInterval;
     this.featureFlags = this.getStorage();
-
+    
+    wx.setStorage({
+      key: "ffc-userinfo",
+      data: JSON.stringify(this.userInfo)
+    });
 
     this.experimentsPage();
   },
   initFFUserInfo(userInfo) {
     this.userInfo = userInfo;
+    wx.setStorage({
+      key: "ffc-userinfo",
+      data: JSON.stringify(this.userInfo)
+    });
   },
   updateFFUserKeyId(ffUserKeyId) {
     this.userInfo.ffUserKeyId = ffUserKeyId;
+    wx.setStorage({
+      key: "ffc-userinfo",
+      data: JSON.stringify(this.userInfo)
+    });
   },
   updateFFUserName(ffUserName) {
     this.userInfo.ffUserName = ffUserName;
+    wx.setStorage({
+      key: "ffc-userinfo",
+      data: JSON.stringify(this.userInfo)
+    });
   },
   updateFFUserEmail(ffUserEmail) {
     this.userInfo.ffUserEmail = ffUserEmail;
+    wx.setStorage({
+      key: "ffc-userinfo",
+      data: JSON.stringify(this.userInfo)
+    });
   },
   updateFFCustomizedProperties(customizedProperties) {
     this.userInfo.customizedProperties = customizedProperties;
+    wx.setStorage({
+      key: "ffc-userinfo",
+      data: JSON.stringify(this.userInfo)
+    });
   },
   checkFromStorage(storageKey) {
     let lastFFVariationStr = wx.getStorageSync(storageKey);
@@ -206,42 +228,90 @@ module.exports = {
     });
     let oldPage = Page
     Page = function (obj) {
-      // 重写onShow方法，用一个变量保存旧的onShow函数
+      // console.log(obj);
       let oldOnShow = obj.onShow
       obj.onShow = function () {
-        console.log(this)
+        // console.log(this)
         let route = this.route;
         wx.nextTick(() => {
-          console.log("nextTick");
+          // console.log("nextTick");
           let storageKey = "ffc-sdk-wechat-miniprogram-pageview";
           let pageViewsStr = wx.getStorageSync(storageKey);
           let pageViews = JSON.parse(pageViewsStr);
+          let userInfo = JSON.parse(wx.getStorageSync("ffc-userinfo"));
           pageViews.push({
             route: route,
             timeStamp: Math.round(new Date().getTime() / 1000),
-            type: 'pageview'
+            type: 'pageview',
+            user: userInfo
           })
           wx.setStorage({
             key: storageKey,
             data: JSON.stringify(pageViews)
           });
+          if (oldOnShow !== undefined)
+            oldOnShow.call(this);
         })
-        console.log(obj)
-
-        // 此处不能写成oldOnShow()，否则没有this，this.setData等方法为undefined。这里的this在Page构造函数实例化的时候才会指定
-        // 在Page构造函数实例化的时候，小程序会将当前的Page对象的原型链（__proto__）增加很多方法，例如setData。当前的obj没有setData
-        // 上面一段是我猜的
-        // oldOnShow.call(this)
+        // console.log(obj)
       }
-      // 重写onHide方法，用一个变量保存旧的onHide函数
-      let oldOnHide = obj.onHide
-      obj.onHide = function () {
-        console.log("leavePageLog")
 
-        // 此处不能写成oldOnHide()，否则没有this，this.setData等方法为undefined。这里的this在Page对象实例化的时候才会指定
-        // oldOnHide.call(this)
-      }
+
+      Object.keys(obj).forEach((methodName) => {
+        const originMethod = obj[methodName];
+        if (typeof originMethod !== "function") {
+          return true;
+        }
+        (obj)[methodName] = function (...args) {
+          console.log(methodName)
+          console.log(args)
+          console.log(this)
+          if (args && args[0] && args[0].type == 'tap' && args[0]._userTap) {
+            let route = this.route;
+            wx.nextTick(() => {
+              let storageKey = "ffc-sdk-wechat-miniprogram-pageview";
+              let pageViewsStr = wx.getStorageSync(storageKey);
+              let pageViews = JSON.parse(pageViewsStr);
+              let userInfo = JSON.parse(wx.getStorageSync("ffc-userinfo"));
+              pageViews.push({
+                route: route,
+                timeStamp: Math.round(new Date().getTime() / 1000),
+                type: 'tap',
+                user: userInfo
+              })
+              wx.setStorage({
+                key: storageKey,
+                data: JSON.stringify(pageViews)
+              });
+            })
+          }
+
+          return originMethod.call(this, ...args);
+        };
+      });
       return oldPage(obj)
     }
+  },
+  track(message, eventType, customizedProperties) {
+    wx.nextTick(() => {
+      // console.log("track");
+      let storageKey = "ffc-sdk-wechat-miniprogram-pageview";
+      let pageViewsStr = wx.getStorageSync(storageKey);
+      let pageViews = JSON.parse(pageViewsStr);
+      let userInfo = JSON.parse(wx.getStorageSync("ffc-userinfo"));
+      pageViews.push({
+        timeStamp: Math.round(new Date().getTime() / 1000),
+        type: 'customEvent',
+        message: message,
+        eventType: eventType,
+        customizedProperties: customizedProperties,
+        user: userInfo
+      })
+      wx.setStorage({
+        key: storageKey,
+        data: JSON.stringify(pageViews)
+      });
+      if (oldOnShow !== undefined)
+        oldOnShow.call(this);
+    })
   }
 }
