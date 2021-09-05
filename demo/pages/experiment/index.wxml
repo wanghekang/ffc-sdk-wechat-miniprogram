@@ -1,0 +1,16 @@
+<template name="experiments">
+  <view class="item-container">
+    <text class="item"> Route: {{item.Route}} </text>
+    <text class="item"> Type: {{item.Type}} </text>
+    <text class="item"> UserName: {{item.User.FFUserName}} </text>
+    <text class="item"> TimeStamp: {{item.TimeStamp}} </text>
+    <text class="item"> MethodName: {{item.MethodName}} </text>
+  </view>
+</template>
+
+
+<view class="container">
+  <block >
+    <template wx:for="{{items}}" data="{{item}}" is="experiments" />
+  </block>
+</view>

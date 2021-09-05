@@ -1,0 +1,36 @@
+/* pages/index/index.wxss */
+#nav {
+  text-align: center;
+  background: #eeeeee;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 5px;
+}
+
+#add {
+  margin: 1em;
+}
+
+
+.title {
+  margin-bottom: 5px;
+  margin-top: 12px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.container {
+  margin: 1em;
+}
+
+.item {
+  display: block;
+  margin-top: 5px;
+}
+
+.item-container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid lightgray;
+}

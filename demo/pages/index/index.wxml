@@ -1,7 +1,8 @@
+
 <view class="cu-bar" >
 	<view class="action">
-		<navigator url="../func2/index">
-			<button>功能1</button>
+		<navigator url="../experiment/index">
+			<button>PageView&Clicks数据</button>
 		</navigator>
 	</view>
 </view>
@@ -15,14 +16,6 @@
 <view class="cu-bar" >
 	<view class="action">
 		<button bindtap="func3">功能3</button>
-	</view>
-</view>
-
-<view class="cu-bar" >
-	<view class="action">
-		<navigator >
-			<button>功能4</button>
-		</navigator>
 	</view>
 </view>
 

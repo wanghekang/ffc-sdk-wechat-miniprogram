@@ -2,12 +2,15 @@
 const FEATURE_FLAGS = require('/utils/featureFlags.js')
 const FFC = require('./ffcplugin/index')
 
+// const ffcMonitorWorker = wx.createWorker('ffcplugin/workers/sendToServer.js') 
 
 App({
   onLaunch() {
     FEATURE_FLAGS.init();
-    console.log(this)
-    // FFC.experimentsPage();
-    // FFC.experimentsNavigateTo();
+    // this.timer = setInterval(()=>{
+    //   // ffcMonitorWorker.postMessage({
+    //   //   msg: 'hello worker'
+    //   // })
+    // }, 1500)
   }
 })

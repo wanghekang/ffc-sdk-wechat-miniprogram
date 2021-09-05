@@ -1,11 +1,17 @@
 //const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
 const FFC = require('../ffcplugin/index')
 
+function envKey(){
+	return "YzBiLTZhZGEtNCUyMDIxMDkwNTAyNDM0Ml9fMl9fM19fMTA0X19kZWZhdWx0XzczOWY4";
+}
+function defaultRootUri(){
+	return FFC.defaultRootUri;
+}
+
 function init() {
 	FFC.init(
 		null,
-		// "ZGMxLTQ2NWUtNCUyMDIxMDgxMTE1NDAzNF9fMl9fMl9fNF9fZGVmYXVsdF85YWZlYQ==",
-		"MWEwLWIwODEtNCUyMDIxMDkwMTEzMDEzNl9fMl9fMjJfXzQ0X19kZWZhdWx0XzQ4ZTRh",
+		envKey(),
 		1,
 		"Production"
 	);
@@ -17,7 +23,7 @@ function setUserInfo(wechatUserInfo) {
 
 function showNewFunction(actions) {
 	FFC.checkVariation(
-		'测试',
+		'微信小程序测试',
 		e => {
 			console.log(e);
 			switch (e.variationValue) {
@@ -39,4 +45,6 @@ module.exports = {
 	init: init,
 	showNewFunction: showNewFunction,
 	setUserInfo: setUserInfo,
+	envKey: envKey,
+	defaultRootUri: defaultRootUri
 }
