@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/login/index",
     "pages/index/index"
   ],
   "plugins": {
@@ -9,6 +8,5 @@
       "provider": "wxd97695f79d8a9472"
     }
   },
-  "workers": "workers",
   "sitemapLocation": "sitemap.json"
 }

@@ -18,17 +18,13 @@ module.exports = {
     secretKey = '',
     sameFlagCallMinimumInterval = 15,
     env = 'Production') {
-    // console.log(secretKey);
     this.secretKey = secretKey;
     if (userInfo && userInfo !== null)
       this.userInfo = userInfo;
     if (env === 'Production')
       this.defaultRootUri = 'https://api.feature-flags.co';
-      // this.defaultRootUri = 'https://ffc-api-ce2-dev.chinacloudsites.cn';
-      // this.defaultRootUri = 'http://localhost:5001';
     else
       this.defaultRootUri = 'https://ffc-api-ce2-dev.chinacloudsites.cn';
-      // this.defaultRootUri = 'http://localhost:5001';
     this.sameFlagCallMinimumInterval = sameFlagCallMinimumInterval;
     this.featureFlags = this.getStorage();
 
@@ -239,13 +235,10 @@ module.exports = {
     });
     let oldPage = Page
     Page = function (obj) {
-      // console.log(obj);
       let oldOnShow = obj.onShow
       obj.onShow = function () {
-        // console.log(this)
         let route = this.route;
         wx.nextTick(() => {
-          // console.log("nextTick");
           let storageKey = "ffc-sdk-wechat-miniprogram-pageview";
           let pageViewsStr = wx.getStorageSync(storageKey);
           let pageViews = JSON.parse(pageViewsStr);
@@ -266,7 +259,6 @@ module.exports = {
           if (oldOnShow !== undefined)
             oldOnShow.call(this);
         })
-        // console.log(obj)
       }
 
 
@@ -276,9 +268,6 @@ module.exports = {
           return true;
         }
         (obj)[methodName] = function (...args) {
-          console.log(methodName)
-          console.log(args)
-          console.log(this)
           if (args && args[0] && args[0].type == 'tap' && args[0]._userTap) {
             let route = this.route;
             wx.nextTick(() => {
@@ -311,7 +300,6 @@ module.exports = {
   },
   track(message, eventType, methodName, customizedProperties) {
     wx.nextTick(() => {
-      // console.log("track");
       let storageKey = "ffc-sdk-wechat-miniprogram-pageview";
       let pageViewsStr = wx.getStorageSync(storageKey);
       let pageViews = JSON.parse(pageViewsStr);
@@ -337,7 +325,6 @@ module.exports = {
     })
   },
   sendTelemetryToServer(defaultRootUri) {
-    console.log('sendToServer');
     let storageKey = "ffc-sdk-wechat-miniprogram-pageview";
     let pageViewsStr = wx.getStorageSync(storageKey);
     wx.setStorage({
@@ -345,7 +332,6 @@ module.exports = {
       data: JSON.stringify([])
     });
     let pageViews = JSON.parse(pageViewsStr);
-    console.log(pageViews);
     let failedEvet = [];
     if (pageViews && pageViews.length > 0) {
       wx.request({

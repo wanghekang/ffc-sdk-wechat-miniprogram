@@ -1,0 +1,17 @@
+<view class="cu-bar" hidden="{{!showVersion[0]}}">
+	<view class="action">
+		<button>产品经理版1</button>
+	</view>
+</view>
+
+<view class="cu-bar" hidden="{{!showVersion[1]}}">
+	<view class="action">
+		<button>程序员版1</button>
+	</view>
+</view>
+
+<view class="cu-bar" hidden="{{!showVersion[2]}}">
+	<view class="action">
+		<button>产品经理版2</button>
+	</view>
+</view>
