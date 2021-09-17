@@ -1,58 +1,58 @@
 # ffc-sdk-wechat-miniprogram
 
-敏捷开关(https://github.com/feature-flags-co/feature-flags-co) 为小程序开发者方便实用feature flags服务提供的SDK
+## 推荐版本
 
-主要功能包括：
+推荐使用文件夹"version2.0"中的ffcplugin源码，作为微信小程序的SDK使用。只需像"version2.0"项目中一样调用相关SDK功能即可。
 
-1. 调用敏捷开关远程服务，根据自定义的用户信息与开关设置，获得对应的Flag返回值
-2. 设置当对相同开关进行高频连续判断时，向远程调用的频率
-3. 当网络故障(如网络状况差、无网络)，且需要获得未调用过的开关时，可以通过设置默认返回值控制程序走向。
-4. 在小程序中查看敏捷开关使用概述
-5. 同步或异步调用Variation判断函数
+## Demo
 
-小程序开发者同样可以访问github的开源页面，将源代码植入自己的程序方便自己更个性化的设置。
+使用微信小程序开发工具，打开文件夹"version2.0"中的项目，即可看到示例效果
 
-feature-flags.co项目开源地址为: https://github.com/feature-flags-co
-微信小程序SDK开源地址为: https://github.com/feature-flags-co/ffc-sdk-wechat-miniprogram
+![image](https://user-images.githubusercontent.com/68597908/133771373-a8796355-4b39-4ad8-85c4-2b6011bcfa4c.png)
 
-## 快速案例
-
-如下代码均来自敏捷开关小程序开源地址项目(ffc-sdk-wechat-miniprogram)中的miniprogrem案例
+## 集成SDK到自己的小程序
 
 ### 在小程序根部的app.js中初始化敏捷开关
 
 在app.js文件中添加
+```javascript
+  onLaunch() {
+    // 初始化FFC连接
+    FFC.init(
+      // environment key
+      "YThmLWRmZjUtNCUyMDIxMDkxNzA3NTYyMV9fMl9fMjJfXzExNl9fZGVmYXVsdF82NTM3Mg==",
+      // 相同feature flag的重复调用最短间隔(秒)，在最短间隔内，sdk将使用上次调用结果返回
+      10
+    );
 
-	onLaunch: function () {
-		FFC.init(
-			null, // 这里同样可以初始化用户信息
-			"MzkwLFFWZlYjctNCUyMDIxMD8zzQW6e2EV9fNF9fMl9fNF9fZGVmYXVsdF9hNGIyYQ=="  // 敏捷开关内对应项目->环境的secret key
-		);
+    // 初始化用户信息，通常这一步会在登录后被调用
+    FFC.initFFUserInfo({
+      "ffUserName": "sdk-sample-miniprogram",
+      "ffUserEmail": "",
+      "ffUserKeyId": "sdk-sample-miniprogram", // 项目环境内用户唯一Id
+      "ffUserCustomizedProperties": [  // 用户自定义属性
+	{
+	  name: "外放地址",
+	  value: "?from=zhihu&group=pm"
 	}
-
+      ]
+    });
+  }
+```
 ### 在用户登录后传递用户信息给敏捷开关SDK
-
-utils/featureFlags.js文件中添加
-
-	const FFC = requirePlugin('ffc-sdk-wechat-miniprogram')
-
-	function setUserInfo(wechatUserInfo) {
-		FFC.initFFUserInfo({
-			ffUserName: wechatUserInfo.base.nick,
-			ffUserEmail: "",
-			ffUserKeyId: wechatUserInfo.base.id,
-			ffUserCustomizedProperties: [
-				{
-					name: "gender",
-					value: `${wechatUserInfo.base.gender}`
-				},
-				{
-					name: "sourceStr",
-					value: `${wechatUserInfo.base.sourceStr}`
-				}
-			]
-		});
-	}
+```javascript
+  FFC.initFFUserInfo({
+    "ffUserName": "sdk-sample-miniprogram",
+    "ffUserEmail": "",
+    "ffUserKeyId": "sdk-sample-miniprogram", // 项目环境内用户唯一Id
+    "ffUserCustomizedProperties": [  // 用户自定义属性
+      {
+	name: "外放地址",
+	value: "?from=zhihu&group=pm"
+      }
+    ]
+  });
+```
 
 pages/my/index.js文件中添加
 
