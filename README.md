@@ -68,4 +68,19 @@
 ```
 
 如果需要异步请求的函数，可以在源码"/ffcplugin/index.js"文件中寻找"checkVariationAsync"函数
-
+### 捕捉点击按钮的事件(custom event)
+```javascript
+  FFC.track(
+    '开始使用点击事件',
+    [],
+    () => {
+      wx.showModal({
+        title: '谢谢使用'
+      })
+    },
+    () => {
+      wx.showModal({
+        title: '错误异常'
+      })
+    })
+```
