@@ -1,6 +1,6 @@
 # ffc-sdk-wechat-miniprogram
 
-## 推荐版本
+## 安装
 
 推荐使用文件夹"version2.0"中的ffcplugin源码，作为微信小程序的SDK使用。只需像"version2.0"项目中一样调用相关SDK功能即可。
 
